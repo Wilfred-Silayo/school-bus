@@ -5,7 +5,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="../font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="../font-awesome/css/fontawesome.css">
+    <link rel="stylesheet" href="../font-awesome/css/brands.css">
+    <link rel="stylesheet" href="../font-awesome/css/solid.css">
     <link rel="stylesheet" href="../customs/style.css">
     <link rel="shortcut icon" href="../images/school-bus.png" type="image/x-icon">
     <title>School Bus Tracking System</title>

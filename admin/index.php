@@ -1,7 +1,9 @@
 <?php
-//session here
+  	session_start();
+  	if(isset($_SESSION['admin'])){
+    	header('location:home.php');
+  	}
 ?>
-
 <?php include 'includes/header.php'; ?>
 
 <body>
@@ -14,8 +16,18 @@
                         Login as Admin
                     </div>
                     <div class="card-body">
-                        <form>
-                            <div class="mb-3"> 
+                        <form action="includes/login.php" method="POST">
+                            <?php
+                                if(isset($_SESSION['error'])){
+                                    echo "
+                                        <div class='alert alert-danger'>
+                                            <span>".$_SESSION['error']."</span> 
+                                        </div>
+                                    ";
+                                    unset($_SESSION['error']);
+                                }
+                            ?>
+                            <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <div class="input-group">
                                     <span class="input-group-text"><i class="fa fa-user"></i></span>
@@ -37,12 +49,14 @@
                             </div>
                             <div class="form-group">
                                 <div class="d-flex justify-content-between">
-                                    <button type="submit" class="btn btn-success">Submit</button>
+                                    <button type="submit" class="btn btn-success" name='login'>Login</button>
                                     <a href="#" class="align-self-center">Forgot Password?</a>
                                 </div>
                             </div>
                         </form>
-                        <div class="mt-4"><hr></div>
+                        <div class="mt-4">
+                            <hr>
+                        </div>
                         <h5 class="text-center my-3">or</h5>
                         <div class="row">
                             <div class="col-6 text-center">
@@ -56,7 +70,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div>  
 </body>
 
 <?php include 'includes/scripts.php' ?>

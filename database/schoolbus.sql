@@ -1,7 +1,9 @@
 CREATE TABLE admins (
   id VARCHAR(255) PRIMARY KEY,
-  name VARCHAR(255),
-  email VARCHAR(255),
+  firstName VARCHAR(255),
+  middleName VARCHAR(255),
+  lastName VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
   phone VARCHAR(255),
   password VARCHAR(255),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -10,8 +12,10 @@ CREATE TABLE admins (
 
 CREATE TABLE drivers (
   licence VARCHAR(255) PRIMARY KEY,
-  name VARCHAR(255),
-  email VARCHAR(255),
+  firstName VARCHAR(255),
+  middleName VARCHAR(255),
+  lastName VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
   phone VARCHAR(255),
   password VARCHAR(255),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -20,8 +24,10 @@ CREATE TABLE drivers (
 
 CREATE TABLE parents (
   id VARCHAR(255) PRIMARY KEY,
-  name VARCHAR(255),
-  email VARCHAR(255),
+  firstName VARCHAR(255),
+  middleName VARCHAR(255),
+  lastName VARCHAR(255),
+  email VARCHAR(255) UNIQUE,
   phone VARCHAR(255),
   password VARCHAR(255),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
@@ -29,8 +35,11 @@ CREATE TABLE parents (
 );
 
 CREATE TABLE routes (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT,
   name VARCHAR(255),
+  start_point VARCHAR(255),
+  pass_through VARCHAR(255),
+  end_point VARCHAR(255),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
@@ -43,7 +52,7 @@ CREATE TABLE stops (
   route_id INT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (route_id) REFERENCES routes(id)
+  FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 
@@ -53,36 +62,38 @@ CREATE TABLE buses (
   route_id INT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (driver_id) REFERENCES drivers(licence),
-  FOREIGN KEY (route_id) REFERENCES routes(id)
+  FOREIGN KEY (driver_id) REFERENCES drivers(licence) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (route_id) REFERENCES routes(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE students (
   id VARCHAR(255) PRIMARY KEY,
-  name VARCHAR(255),
+  firstName VARCHAR(255),
+  middleName VARCHAR(255),
+  lastName VARCHAR(255),
   grade_level VARCHAR(255),
   parent_id VARCHAR(255),
   bus_assigned VARCHAR(255),
   stop_id INT,
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (parent_id) REFERENCES parents(id),
-  FOREIGN KEY (bus_assigned) REFERENCES buses(plate_number),
-  FOREIGN KEY (stop_id) REFERENCES stops(id)
+  FOREIGN KEY (parent_id) REFERENCES parents(id) ON DELETE CASCADE ON UPDATE CASCADE,
+  FOREIGN KEY (bus_assigned) REFERENCES buses(plate_number) ON DELETE SET NULL ON UPDATE CASCADE,
+  FOREIGN KEY (stop_id) REFERENCES stops(id) ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE locations (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT,
   bus_plate_number VARCHAR(255),
   latitude DECIMAL(10,8),
   longitude DECIMAL(11,8),
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
   updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (bus_plate_number) REFERENCES buses(plate_number)
+  FOREIGN KEY (bus_plate_number) REFERENCES buses(plate_number) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
 CREATE TABLE messages (
-  id INT PRIMARY KEY,
+  id INT PRIMARY KEY AUTO_INCREMENT,
   sender_id VARCHAR(255),
   recipient_id VARCHAR(255),
   content TEXT,
@@ -96,5 +107,11 @@ CREATE TABLE messages (
   FOREIGN KEY (recipient_id) REFERENCES admins(id) ON DELETE CASCADE,
   FOREIGN KEY (recipient_id) REFERENCES drivers(licence) ON DELETE CASCADE,
   FOREIGN KEY (recipient_id) REFERENCES parents(id) ON DELETE CASCADE
+);
+
+
+
+INSERT INTO admins (id, firstName, middleName, lastName, email, phone, password) VALUES (
+    'Admin', 'Faraji', 'Juma', 'Jengi', 'example@gmail.com', '0123456789', '$2y$10$0IVpq/BFnoJ1AL95mDHK4Oqgg24kPYcjfKa5n63YTnQv12XlCfXEO'
 );
 
