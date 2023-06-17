@@ -2,6 +2,26 @@
 <?php
 
 $studentId = '';
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $studentId=$_POST['studentId'];
+    $firstName = $_POST['firstName'];
+    $middleName = $_POST['middleName'];
+    $lastName = $_POST['lastName'];
+    $gradeLevel = $_POST['gradeLevel'];
+    $parentId = $_POST['parentId'];
+    $busAssigned = $_POST['busAssigned'];
+    $stopId = $_POST['stopId'];
+
+    $id=$studentId;
+    $stmt = $conn->prepare("UPDATE students SET firstName = ?, middleName = ?, lastName = ?, grade_level = ?, parent_id = ?, bus_assigned = ?, stop_id = ? WHERE id = ?");
+    $stmt->bind_param("sssissis", $firstName, $middleName, $lastName, $gradeLevel, $parentId, $busAssigned, $stopId, $studentId);
+
+    if ($stmt->execute()) {
+        $_SESSION['success_message'] = "Student updated successfully";
+    } else {
+        $_SESSION['error_message'] = "Failed to update student";
+    }
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['studentId'])) {
     $studentId = $_GET['studentId'];
@@ -16,25 +36,6 @@ $studentQuery->execute();
 $studentResult = $studentQuery->get_result();
 $studentData = $studentResult->fetch_assoc();
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $firstName = $_POST['firstName'];
-    $middleName = $_POST['middleName'];
-    $lastName = $_POST['lastName'];
-    $gradeLevel = $_POST['gradeLevel'];
-    $parentId = $_POST['parentId'];
-    $busAssigned = $_POST['busAssigned'];
-    $stopId = $_POST['stopId'];
-
-    $id=$studentId;
-    $stmt = $conn->prepare("UPDATE students SET firstName = ?, middleName = ?, lastName = ?, grade_level = ?, parent_id = ?, bus_assigned = ?, stop_id = ? WHERE id = ?");
-    $stmt->bind_param("sssssssi", $firstName, $middleName, $lastName, $gradeLevel, $parentId, $busAssigned, $stopId, $studentId);
-
-    if ($stmt->execute()) {
-        $_SESSION['success_message'] = "Student updated successfully";
-    } else {
-        $_SESSION['error_message'] = "Failed to update student";
-    }
-}
 ?>
 <?php
 if (isset($_SESSION['success_message'])) {
@@ -58,7 +59,8 @@ if (isset($_SESSION['success_message'])) {
                     <label for="firstName">First Name</label>
                 </div>
                 <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" name="firstName" value="<?php echo htmlentities($studentData['firstName']); ?>" required>
+                    <input type="text" class="form-control" name="firstName"
+                        value="<?php echo htmlentities($studentData['firstName']); ?>" required>
                 </div>
             </div>
         </div>
@@ -68,7 +70,8 @@ if (isset($_SESSION['success_message'])) {
                     <label for="middleName">Middle Name</label>
                 </div>
                 <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" name="middleName" value="<?php echo htmlentities($studentData['middleName']); ?>">
+                    <input type="text" class="form-control" name="middleName"
+                        value="<?php echo htmlentities($studentData['middleName']); ?>">
                 </div>
             </div>
         </div>
@@ -78,7 +81,8 @@ if (isset($_SESSION['success_message'])) {
                     <label for="lastName">Last Name</label>
                 </div>
                 <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" name="lastName" value="<?php echo htmlentities($studentData['lastName']); ?>" required>
+                    <input type="text" class="form-control" name="lastName"
+                        value="<?php echo htmlentities($studentData['lastName']); ?>" required>
                 </div>
             </div>
         </div>
@@ -88,7 +92,8 @@ if (isset($_SESSION['success_message'])) {
                     <label for="gradeLevel">Grade Level</label>
                 </div>
                 <div class="col-md-7 col-sm-5">
-                    <input type="text" class="form-control" name="gradeLevel" value="<?php echo htmlentities($studentData['grade_level']); ?>" required>
+                    <input type="text" class="form-control" name="gradeLevel"
+                        value="<?php echo htmlentities($studentData['grade_level']); ?>" required>
                 </div>
             </div>
         </div>

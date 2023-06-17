@@ -97,18 +97,16 @@ CREATE TABLE messages (
   sender_id VARCHAR(255),
   recipient_id VARCHAR(255),
   content TEXT,
-  sent_at DATETIME,
-  received_at DATETIME,
-  created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-  updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  FOREIGN KEY (sender_id) REFERENCES admins(id) ON DELETE CASCADE,
-  FOREIGN KEY (sender_id) REFERENCES drivers(licence) ON DELETE CASCADE,
-  FOREIGN KEY (sender_id) REFERENCES parents(id) ON DELETE CASCADE,
-  FOREIGN KEY (recipient_id) REFERENCES admins(id) ON DELETE CASCADE,
-  FOREIGN KEY (recipient_id) REFERENCES drivers(licence) ON DELETE CASCADE,
-  FOREIGN KEY (recipient_id) REFERENCES parents(id) ON DELETE CASCADE
+  status INT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
+CREATE TABLE login_details(
+  id INT PRIMARY KEY AUTO_INCREMENT,
+  user_id VARCHAR(255),
+  is_type enum('no','yes') NOT NULL,
+  last_activity TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
 
 
 INSERT INTO admins (id, firstName, middleName, lastName, email, phone, password) VALUES (

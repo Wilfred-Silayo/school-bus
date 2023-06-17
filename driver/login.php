@@ -21,6 +21,13 @@ if (isset($_POST['login'])) {
             $row = $query->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['driver'] = $row['licence'];
+                $sub_query = "
+				INSERT INTO login_details 
+	     		(user_id) 
+	     		VALUES ('".$row['licence']."')
+				";
+				$statement = $conn->prepare($sub_query);
+				$statement->execute();
             } else {
                 $_SESSION['error'] = 'Incorrect credentials password';
             }

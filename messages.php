@@ -1,13 +1,13 @@
 <?php
-include 'includes/session.php'; 
-include 'includes/header.php';
+include 'parent/session.php'; 
+include 'parent/header.php';
 ?>
 
 <body class="bg-light" style=" min-height:90vh;">
-    <?php include 'includes/navbar.php'; ?>
+    <?php include 'parent/navbar.php'; ?>
     <div class="container-fluid">
         <div class="row flex-nowrap">
-            <?php include 'includes/menubar.php'; ?>
+            <?php include 'parent/menubar.php'; ?>
             <!-- Content Wrapper. Contains page content -->
             <div class="col-md-9 col-sm-9">
                 <div class="container-fluid bg-white my-3">
@@ -72,6 +72,8 @@ $(document).ready(function() {
             }
         });
     }
+
+
 
     function make_chat_dialog_box(recipient_id, to_user_name) {
         var modal_content = '<div id="user_dialog_' + recipient_id +

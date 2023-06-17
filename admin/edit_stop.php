@@ -1,31 +1,10 @@
 <?php
 include 'includes/main.php';
 
-$routeId = '';
-if (isset($_GET['routeId'])) {
-    $routeId = $_GET['routeId'];
-}
-
-$stopId = '';
-if (isset($_GET['stopId'])) {
-    $stopId = $_GET['stopId'];
-}
-
-// Fetch the original stop details for pre-filling the form
-$originalStop = [];
-if (!empty($stopId)) {
-    $stmt = $conn->prepare("SELECT * FROM stops WHERE id = ?");
-    $stmt->bind_param("i", $stopId);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result && $result->num_rows > 0) {
-        $originalStop = $result->fetch_assoc();
-    }
-}
-
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $name = $_POST['name'];
+    $stopId = $_POST['stopId'];
+    $routeId = $_POST['routeId'];
     $latitude = $_POST['latitude'];
     $longitude = $_POST['longitude'];
 
@@ -40,6 +19,31 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['error_message'] = "Failed to update stop";
     }
 }
+
+
+if (isset($_POST['routeId']) && isset($_POST['stopId'])) {
+    $stopId = $_POST['stopId'];
+    $routeId = $_POST['routeId'];
+}
+
+else{
+    $stopId = $_GET['stopId'];
+    $routeId = $_GET['routeId'];
+}
+
+$originalStop = [];
+if (!empty($stopId)) {
+    $stmt = $conn->prepare("SELECT * FROM stops WHERE id = ?");
+    $stmt->bind_param("i", $stopId);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if ($result && $result->num_rows > 0) {
+        $originalStop = $result->fetch_assoc();
+    }
+}
+
+
 ?>
 <?php
 if (isset($_SESSION['success_message'])) {
@@ -62,7 +66,9 @@ if (isset($_SESSION['success_message'])) {
     </div>
     <div class="row">
         <div class="col-md-6 mt-3 mb-4">
-            <form action="edit_stop.php?stopId=<?php echo $stopId ?>&routeId=<?php echo $routeId ?>" method="post">
+            <form action="edit_stop.php" method="post">
+            <input type="hidden" name="stopId" value="<?php echo htmlentities($stopId); ?>">
+            <input type="hidden" name="routeId" value="<?php echo htmlentities($routeId); ?>">
                 <div class="form-group mb-3">
                     <label for="name">Stop Name</label>
                     <input type="text" class="form-control" id="name" name="name" value="<?php echo isset($originalStop['name']) ? htmlentities($originalStop['name']) : ''; ?>" required>

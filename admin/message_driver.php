@@ -1,34 +1,26 @@
-<?php
-include 'includes/session.php'; 
-include 'includes/header.php';
-?>
-
-<body class="bg-light" style=" min-height:90vh;">
-    <?php include 'includes/navbar.php'; ?>
-    <div class="container-fluid">
-        <div class="row flex-nowrap">
-            <?php include 'includes/menubar.php'; ?>
-            <!-- Content Wrapper. Contains page content -->
-            <div class="col-md-9 col-sm-9">
-                <div class="container-fluid bg-white my-3">
-                    <h3 align="start">Chat With Admins</h3><br />
-                    <br />
-                    <div class="row">
-                        <div class="col-md-8 col-sm-6">
-                        </div>
-                    </div>
-                    <div class="table-responsive">
-
-                        <div id="user_details"></div>
-                        <div id="user_model_details"></div>
-                    </div>
-                    <br />
-                    <br />
-                </div>
+<?php include 'includes/main.php'; ?>
+<div class="container-fluid bg-white my-3">
+    <div class="col-md-10 col-sm-9">
+        <h3 align="start">Chat With drivers</h3><br />
+        <br />
+        <div class="row">
+            <div class="col-md-8 col-sm-6">
             </div>
         </div>
+        <div class="table-responsive">
+
+            <div id="user_details"></div>
+            <div id="user_model_details"></div>
+        </div>
+        <br />
+        <br />
+
     </div>
-    <script src="bootstrap/js/bootstrap.js"></script>
+
+</div>
+</div>
+</div>
+<script src="../bootstrap/js/bootstrap.js"></script>
 </body>
 
 </html>
@@ -56,7 +48,7 @@ $(document).ready(function() {
 
     function fetch_user() {
         $.ajax({
-            url: "fetch_admins.php",
+            url: "fetch_driver.php",
             method: "POST",
             success: function(data) {
                 $('#user_details').html(data);

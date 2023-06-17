@@ -19,7 +19,8 @@
             <li class="nav-item bg-dark">
                 <a href="messages.php" class="nav-link d-block align-middle ps-2">
                     <i class="fa-solid text-white fa-message"></i>
-                    <span class="ms-1 d-none d-sm-inline text-white">Messages</span>
+                    <span class="ms-1 d-none d-sm-inline text-white" id="message-count">Messages
+                    </span>
                 </a>
             </li>
 
@@ -37,3 +38,18 @@
         </ul>
     </div>
 </div>
+
+
+<script>
+    function updateMessageCount() {
+        fetch('get_message_count.php')
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('message-count').innerHTML = "Messages " + data;
+            })
+            .catch(error => console.log(error));
+    }
+
+    setInterval(updateMessageCount, 5000);
+    updateMessageCount();
+</script>

@@ -7,7 +7,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $firstName = $_POST['firstName'];
     $middleName = $_POST['middleName'];
     $lastName = $_POST['lastName'];
-    $phone = $_POST['email'];
+    $email = $_POST['email'];
     $phone = $_POST['phone'];
 
     $stmt = $conn->prepare("UPDATE drivers SET firstName = ?, lastName = ?, middleName = ?,email = IFNULL(?, email), phone = ? WHERE licence = ?");
